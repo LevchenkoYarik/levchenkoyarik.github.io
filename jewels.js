@@ -2,7 +2,7 @@
 $(document).ready(function(){
 
 	/* настройки */
-	let gemSize = 64; // размер гема
+	 let gemSize = 64; // размер гема
    let gemClass = "gem"; // класс элементов-гемов
    let gemIdPrefix = "gem"; // префикс для идентификаторов
    let numRows = 8; // количество рядов
@@ -15,17 +15,17 @@ $(document).ready(function(){
    let posX; // столбец второго выбранного гема
    let posY; // ряд второго выбранного гема
 
-	let movingItems = 0; // количество передвигаемых в данный момент гемов
+	 let movingItems = 0; // количество передвигаемых в данный момент гемов
 
-   let score = 1; // количество очков в игре
+   var score = 0; // количество очков в игре
 
    /* цвета гемов */
    let bgColors = new Array(
 		"mediumblue", // синий
 		"magenta",    // пурпурный
-      "yellow",     // жёлтый
-      "lime",       // зелёный
-      "red"         // красный
+    "yellow",   // жёлтый
+    "lime",     // зелёный
+    "red"      // красный
    );    
 
     /* создание поля */
@@ -49,10 +49,10 @@ $(document).ready(function(){
    $("#score")
       .text("Score = " + score)
       .css({
-   	   "color": "white",
-         "font-size": "32px",
-         "position": "relative",
-         "text-align": "center"
+   	    "color": "white",
+          "font-size": "32px",
+          "position": "relative",
+          "text-align": "center"
     	});
 
     $("#gamefield")
@@ -62,11 +62,9 @@ $(document).ready(function(){
         "width": (numCols * gemSize) + "px",
         "height": (numRows * gemSize) + "px"
       });
-
-      
   
     /* добавляем маркер */
-    $("body").append('<div id = "marker"></div>');
+    $("#gamefield").append('<div id = "marker"></div>');
   
     $("#marker").css({
       "width": (gemSize - 10) +"px",
@@ -185,7 +183,7 @@ $(document).ready(function(){
           // определить строку и столбец
           let row = parseInt($(target).attr("id").split("_")[1]);
           let col =  parseInt($(target).attr("id").split("_")[2]);
-          // выделить гем маркером
+          
           $("#marker").show();
           $("#marker").css("top", row * gemSize).css("left", col * gemSize);
   
@@ -375,6 +373,8 @@ $(document).ready(function(){
         }
       }
       jewels[row][col] = -1;
+      countScore();
+      console.log(score);
     }
   
     /* удаляем гемы с поля */
@@ -463,7 +463,6 @@ $(document).ready(function(){
         streak++;
         tmp++;
       }
-      countScore();
       return streak > 1
     }
   
@@ -480,7 +479,6 @@ $(document).ready(function(){
         streak++;
         tmp++;
       }
-      countScore();
       return streak > 1
     }
   
@@ -488,9 +486,12 @@ $(document).ready(function(){
       return isVerticalStreak(row, col) || isHorizontalStreak(row, col);
     }
 
-    function countScore(score){
-      score += 50;
-      return score
+    function countScore(){
+      score += 1;
+
+        $("#score")
+          // обновляются очки
+          .text("Score = " + score);
     }
 
   });
